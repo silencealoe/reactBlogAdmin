@@ -54,21 +54,66 @@ const AddArtical = (props)=>{
     })
   }
   const saveArtical = ()=>{
+    console.log(selectedType)
     if(!articleTitle){
       message.error('请输入文章题目')
+      return;
+    }
+    if(selectedType === '请选择文章类别'){
+      message.error('请选择文章类别')
       return;
     }
     if(!articleContent){
       message.error('请输入文章内容')
       return;
     }
-    if(!typeInfo){
-      message.error('请选择文章类型')
-      return;
-    }
     if(!introducemd){
       message.error('请输入文章简介')
+      return;
     }
+    
+    let addData = {
+      title: articleTitle,
+      type_id: selectedType,
+      content: articleContent,
+      addTime: new Date().getTime(),
+      view_count: 0,
+      introduce: introducemd
+    }
+    if(articleId===0){
+      axios({
+        method:'post',
+        url:servicePath.addArticle,
+        withCredentials:true,
+        data:addData
+      }).then(res=>{
+        console.log(res)
+        if(res.data.isSuccess){
+          setArticleId(res.data.articleId)
+          message.success('文章发表成功')
+        }else{
+          message.error('文章发表失败')
+        }
+      })
+
+    } else {
+      addData.id = articleId
+      axios({
+        method:'post',
+        url:servicePath.updateArticle,
+        withCredentials:true,
+        data:addData
+      }).then(res=>{
+        console.log(res)
+        if(res.data.isSuccess){
+          // setArticleId(res.data.insertId)
+          message.success('文章修改成功')
+        }else{
+          message.error('文章修改失败')
+        }
+      })
+    }
+  
   }
   useEffect(()=>{
     getType()
@@ -83,14 +128,14 @@ const AddArtical = (props)=>{
                 <Input
                   size="large"
                   placeholder="输入博客标题"
-                  onChange={(value)=>(setArticleTitle(value))}
+                  onChange={(e)=>(setArticleTitle(e.target.value))}
                 />
               </Col>
               <Col span={6}>
                 <Select size="large" style={{width:180}} defaultValue={selectedType} onChange={(value)=>(setSelectType(value))}>
                   {
                     typeInfo.map((item)=>(
-                    <Option value={item.typeKey} key={item.Id} style={{width:180}}>{item.typeName}</Option>
+                    <Option value={item.Id} key={item.Id} style={{width:180}}>{item.typeName}</Option>
                     ))
                   }
                 </Select>
@@ -117,7 +162,7 @@ const AddArtical = (props)=>{
             <Row>
               <Col span={24}> 
                 <Button type="white" size="large">暂存文章</Button> &nbsp;
-                <Button type="primary" size="large" onClick={saveArtical}>发表文章</Button>
+                <Button type="primary" size="large" onClick={saveArtical}>{articleId===0?'发表':'修改'}文章</Button>
               </Col>
               <Col span={24}>
                 <br/>
