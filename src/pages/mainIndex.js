@@ -65,7 +65,7 @@ function MainIndex(){
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                <Route path="/" component={AddArtical} exact></Route>
+                <Route path="/index" component={AddArtical} exact></Route>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Blog System ©2020 Created by Hui_young</Footer>

@@ -6,8 +6,8 @@ import Index from '../pages/mainIndex'
 function Main(){
     return (
         <Router>
-            <Route path="/" component={Index} exact></Route>
-            <Route path="/login" component={Login} exact></Route>
+            <Route path="/index" component={Index} exact></Route>
+            <Route path="/" component={Login} exact></Route>
         </Router>
     )
 }

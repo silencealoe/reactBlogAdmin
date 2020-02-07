@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.26.8",
+    "axios": "^0.19.2",
     "cra-template": "1.0.1",
     "marked": "^0.8.0",
     "react": "^16.12.0",
